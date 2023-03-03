@@ -382,7 +382,7 @@ describe('MainPlayerComponent', () => {
     component.totalScore = undefined;
     component.playerConfig = playerConfig;
     component.generateOutComeLabel();
-    expect(component.outcomeLabel).toBe('5');
+    expect(component.outcomeLabel).toBe(5);
   });
 
   it('should generate OutCome Label, when summary Type is Duration', () => {

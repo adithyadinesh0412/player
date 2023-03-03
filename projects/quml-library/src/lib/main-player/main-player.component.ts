@@ -72,7 +72,7 @@ export class MainPlayerComponent implements OnInit, OnChanges {
   finalScore = 0;
   totalNoOfQuestions = 0;
   durationSpent: string;
-  outcomeLabel: string;
+  outcomeLabel: any;
   totalScore: number;
   initialTime: number;
   userName: string;
@@ -480,7 +480,7 @@ export class MainPlayerComponent implements OnInit, OnChanges {
   }
 
   generateOutComeLabel() {
-    this.outcomeLabel = this.finalScore.toString();
+    this.outcomeLabel = Number(this.finalScore);
     switch (_.get(this.playerConfig, 'metadata.summaryType')) {
       case 'Complete': {
         this.outcomeLabel = this.totalScore ? `${this.finalScore} / ${this.totalScore}` : this.outcomeLabel;

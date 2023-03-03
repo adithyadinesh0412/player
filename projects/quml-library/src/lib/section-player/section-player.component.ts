@@ -9,8 +9,6 @@ import { ViewerService } from '../services/viewer-service/viewer-service';
 import { eventName, pageId, TelemetryType } from '../telemetry-constants';
 import { UtilService } from '../util-service';
 
-const DEFAULT_SCORE: number = 1;
-
 @Component({
   selector: 'quml-section-player',
   templateUrl: './section-player.component.html',
@@ -62,6 +60,7 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
   endPageReached: boolean;
   tryAgainClicked = false;
   currentOptionSelected: any;
+  shuffleScore : any = 1;
   carouselConfig = {
     NEXT: 1,
     PREV: 2
@@ -199,9 +198,10 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
         }
       }, 200);
     }
-
+    
     this.shuffleOptions = this.sectionConfig.config?.shuffleOptions;
     this.isShuffleQuestions = this.sectionConfig.metadata.shuffle;
+    this.shuffleScore = this.parentConfig.metadata?.shuffleScore;
     this.noOfQuestions = this.questionIds.length;
     this.viewerService.initialize(this.sectionConfig, this.threshold, this.questionIds, this.parentConfig);
     this.checkCompatibilityLevel(this.sectionConfig.metadata.compatibilityLevel);
@@ -435,7 +435,7 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
     const currentIndex = this.myCarousel.getCurrentSlideIndex() - 1;
 
     if (this.isShuffleQuestions) {
-      this.updateScoreBoard(currentIndex, 'correct', undefined, DEFAULT_SCORE);
+      this.updateScoreBoard(currentIndex, 'correct', undefined, this.shuffleScore);
     }
   }
 
@@ -905,7 +905,7 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
     /* istanbul ignore else */
     if (isCorrectAnswer) {
       if (this.isShuffleQuestions) {
-        return DEFAULT_SCORE;
+        return this.shuffleScore != 0;
       }
       return this.questions[currentIndex].responseDeclaration[key].correctResponse.outcomes.SCORE ?
         this.questions[currentIndex].responseDeclaration[key].correctResponse.outcomes.SCORE :
