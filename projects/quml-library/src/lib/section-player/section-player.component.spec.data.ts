@@ -551,6 +551,7 @@ export const mockSectionPlayerConfig = {
       "status": "Live",
       "requiresSubmit": "No",
       "shuffle": true,
+      "shuffleScore" : 2,
       "contentEncoding": "gzip",
       "depth": 1,
       "allowAnonymousAccess": "Yes",
@@ -595,6 +596,9 @@ export const mockSectionPlayerConfig = {
     baseUrl: 'http://localhost:8081/__app__',
     instructions: 'test',
     questionCount: 2,
+    metadata : {
+      shuffleScore : 2
+    },
     sideMenuConfig: {
       enable: true,
       showShare: true,

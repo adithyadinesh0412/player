@@ -60,7 +60,7 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
   endPageReached: boolean;
   tryAgainClicked = false;
   currentOptionSelected: any;
-  shuffleScore : any = 1;
+  shuffleScore : any = 1.00;
   carouselConfig = {
     NEXT: 1,
     PREV: 2
@@ -97,11 +97,19 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
     public errorService: ErrorService
   ) { }
 
+  ngOnInit(){
+    if(this.parentConfig?.metadata?.shuffleScore){
+      this.shuffleScore = this.parentConfig.metadata?.shuffleScore;
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     /* istanbul ignore else */
     if (changes && Object.values(changes)[0].firstChange) {
       this.subscribeToEvents();
     }
+
+
     this.setConfig();
   }
 
@@ -152,7 +160,6 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
             this.highlightQuestion();
           }
         }
-
         if (this.currentSlideIndex === 0) {
           if (this.showStartPage) {
             this.active = this.sectionIndex === 0;
@@ -201,7 +208,6 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
     
     this.shuffleOptions = this.sectionConfig.config?.shuffleOptions;
     this.isShuffleQuestions = this.sectionConfig.metadata.shuffle;
-    this.shuffleScore = this.parentConfig.metadata?.shuffleScore;
     this.noOfQuestions = this.questionIds.length;
     this.viewerService.initialize(this.sectionConfig, this.threshold, this.questionIds, this.parentConfig);
     this.checkCompatibilityLevel(this.sectionConfig.metadata.compatibilityLevel);
@@ -903,9 +909,10 @@ export class SectionPlayerComponent implements OnChanges, AfterViewInit {
 
   getScore(currentIndex, key, isCorrectAnswer, selectedOption?) {
     /* istanbul ignore else */
+
     if (isCorrectAnswer) {
       if (this.isShuffleQuestions) {
-        return this.shuffleScore != 0;
+        return this.shuffleScore;
       }
       return this.questions[currentIndex].responseDeclaration[key].correctResponse.outcomes.SCORE ?
         this.questions[currentIndex].responseDeclaration[key].correctResponse.outcomes.SCORE :

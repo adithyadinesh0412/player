@@ -847,4 +847,18 @@ describe('SectionPlayerComponent', () => {
     expect(document.querySelectorAll).toHaveBeenCalled();
     expect(element.classList.contains('neutral'))
   });
+
+  it('additionofNumber should return sum of numbers', () => {
+    spyOn(component, 'additionofNumber').and.callThrough();
+    const sum = component.additionofNumber(5,6);
+    expect(sum).toBe(11);
+  })
+
+  it('shuffleScore should return 2', () => {
+    mockParentConfig.metadata.shuffleScore = 2;
+    component.parentConfig = mockParentConfig;
+    spyOn(component, 'ngOnInit').and.callThrough();
+    component.ngOnInit();
+    expect(component.shuffleScore).toBe(2);
+  })
 });
